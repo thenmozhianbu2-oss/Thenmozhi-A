@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Registration System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div id="loginPage" class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <h1>University Exam Portal</h1>
+      <p>Register for your semester exams, check your schedule and track your status in one place.</p>
+      <small>Demo login: <b>21CS001</b> / <b>Student@123</b></small>
+    </div>
+    <div class="login-form">
+      <h2>Student Login</h2>
+      <label for="loginUser">Username / Register Number</label>
+      <input id="loginUser" type="text" placeholder="Enter username or register number" autocomplete="username">
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password">
+      <button class="btn" id="loginBtn">Login</button>
+      <div class="login-links">
+        <a href="#" id="forgotUser">Forgot Username?</a>
+        <a href="#" id="forgotPass">Forgot Password?</a>
+      </div>
+      <p style="text-align:center;margin-top:15px;">
+        New Student? <a href="#" id="createAccount">Create Account</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app" hidden>
+  <aside id="sidebar" class="sidebar">
+    <div class="logo">Exam Portal</div>
+    <nav>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#subjects">Available Subjects</a>
+      <a href="#register">Exam Registration</a>
+      <a href="#registered">Registered Subjects</a>
+      <a href="#schedule">Exam Schedule</a>
+      <a href="#status">Registration Status</a>
+      <a href="#profile">Student Profile</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="Menu">&#9776;</button>
+      <span class="top-title">Exam Registration System</span>
+      <div class="top-actions">
+        <button id="themeBtn" class="icon-btn" aria-label="Toggle dark mode">&#9790;</button>
+        <button id="logoutBtn" class="btn small">Logout</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Dashboard -->
+      <section id="dashboard">
+        <h2>Welcome, <span id="dName">Student</span></h2>
+        <p class="muted">Register Number: <b id="dReg">-</b></p>
+        <div class="cards">
+          <div class="stat"><span class="num" id="cTotal">0</span><span>Total Subjects</span></div>
+          <div class="stat"><span class="num" id="cReg">0</span><span>Registered Subjects</span></div>
+          <div class="stat"><span class="num" id="cUp">0</span><span>Upcoming Exams</span></div>
+          <div class="stat"><span class="num" id="cDone">0</span><span>Completed Exams</span></div>
+        </div>
+        <div class="quick">
+          <a href="#register" class="btn">Register for Exam</a>
+          <a href="#schedule" class="btn outline">View Exam Schedule</a>
+        </div>
+      </section>
+
+      <!-- Available Subjects + search -->
+      <section id="subjects">
+        <h2>Available Subjects</h2>
+        <div class="filters">
+          <input id="searchBox" type="search" placeholder="Search by subject name or code">
+          <select id="filterSel">
+            <option value="all">All subjects</option>
+            <option value="open">Not registered</option>
+            <option value="done">Registered</option>
+          </select>
+        </div>
+        <div id="subjectGrid" class="grid"></div>
+      </section>
+
+      <!-- Registration form -->
+      <section id="register">
+        <h2>Exam Registration</h2>
+        <form id="regForm" class="form" novalidate>
+          <div class="field"><label for="fName">Student Name</label><input id="fName" type="text"><small class="err"></small></div>
+          <div class="field"><label for="fReg">Register Number</label><input id="fReg" type="text"><small class="err"></small></div>
+          <div class="field"><label for="fEmail">Email</label><input id="fEmail" type="email"><small class="err"></small></div>
+          <div class="field"><label for="fPhone">Phone Number</label><input id="fPhone" type="tel" maxlength="10"><small class="err"></small></div>
+          <div class="field"><label for="fDept">Department</label>
+            <select id="fDept"><option value="">Select department</option><option>Computer Science</option><option>Information Technology</option><option>Electronics</option><option>Mechanical</option></select><small class="err"></small></div>
+          <div class="field"><label for="fYear">Year</label>
+            <select id="fYear"><option value="">Select year</option><option>1</option><option>2</option><option>3</option><option>4</option></select><small class="err"></small></div>
+          <div class="field"><label for="fSem">Semester</label>
+            <select id="fSem"><option value="">Select semester</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><small class="err"></small></div>
+          <div class="field"><label for="fSubject">Subject Selection</label><select id="fSubject"></select><small class="err"></small></div>
+          <div class="field"><label for="fDate">Exam Date</label><input id="fDate" type="date"><small class="err"></small></div>
+          <div class="field"><label for="fTime">Exam Time</label><input id="fTime" type="time"><small class="err"></small></div>
+          <div class="field full"><button type="submit" class="btn">Submit Registration</button></div>
+        </form>
+      </section>
+
+      <!-- Registered subjects -->
+      <section id="registered">
+        <h2>Registered Subjects</h2>
+        <div id="regList" class="grid"></div>
+      </section>
+
+      <!-- Schedule -->
+      <section id="schedule">
+        <h2>Exam Schedule</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th>Subject</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+            <tbody id="schedBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Status -->
+      <section id="status">
+        <h2>Registration Status</h2>
+        <div id="statusList"></div>
+      </section>
+
+      <!-- Profile -->
+      <section id="profile">
+        <h2>Student Profile</h2>
+        <div class="profile">
+          <div class="avatar" id="avatar">S</div>
+          <dl id="profileInfo"></dl>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <h2>About</h2>
+        <p>The University Exam Portal lets students pick subjects, register for end-semester exams and follow their schedule without visiting the exam cell. Registrations are saved in this browser, so they are still here the next time you open the page.</p>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Controller of Examinations Office, Main Block, Room 12<br>
+        Email: exams@university.edu<br>
+        Phone: 044-2345-6789 (Mon-Fri, 9 AM - 4 PM)</p>
+      </section>
+    </main>
+
+    <footer>&copy; 2026 University Exam Portal. All rights reserved.</footer>
+  </div>
+</div>
+
+<!-- ============ POPUP ============ -->
+<div id="modal" class="modal" hidden>
+  <div class="box" role="dialog" aria-modal="true">
+    <h3 id="mTitle"></h3>
+    <div id="mBody"></div>
+    <div class="box-actions"><button class="btn" id="mClose">OK</button></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
